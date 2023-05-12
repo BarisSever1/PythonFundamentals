@@ -1,0 +1,10 @@
+length = int(input("How old is he?"))
+arr = list(map(int, input("Enter candle sizes: ").rstrip().split()))
+if len(arr) > length:
+    print("You entered wrong sizes")
+else:
+    counter = 0
+    for i in arr:
+        if i == max(arr):
+            counter += 1
+print(f'He can blow {counter} candles')
