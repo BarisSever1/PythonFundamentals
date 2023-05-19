@@ -17,4 +17,4 @@ while True:
 result = 0
 for i in arr:
    result += ((i - (i % 2)) / 2)
-print(result)
+print(f'There are {result} pair of socks.')
