@@ -1,22 +1,33 @@
 from pprint import pprint
-student = {"student_id": {}}
+student = {}
 while True:
     process = input("Enter a process: ").lower()
     if process == "exit":
         break
     if process == "create":
-        create_key = input("Enter key: ")
-        create_value = input("Enter value: ")
-        student.get("student_id")[create_key] = create_value
+        student_id = int(input("Enter student id: "))
+        first_name = input("Enter first name: ")
+        last_name = input("Enter last name: ")
+        phone = input("Enter phone number: ")
+        student[student_id] = {
+            "first_name": first_name,
+            "last_name": last_name,
+            "phone": phone
+        }
     if process == "delete":
-        delete = input("Enter a key to delete it: ")
-        student.get("student_id").pop(delete)
+        student_id = int(input("Enter student id to delete: "))
+        delete_key = input("Enter a key to delete it: ")
+        student.get(student_id).pop(delete_key)
     if process == "update":
+        student_id = int(input("Enter a student id to update it: "))
         update_key = input('Enter a key to update it:  ')
         update_value = input('Enter a value to update the key you have entered: ' )
-        student.get("student_id").update({update_key : update_value})
+        student.get(student_id).update({
+                update_key: update_value
+        }
+        )
     if process == "read":
-        read_key = input("Enter a key to read the value: ")
-        print(student.get("student_id").get(read_key))
+        read_id = int(input("Enter a student id: "))
+        pprint(student.get(read_id))
 
 pprint(student)
