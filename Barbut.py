@@ -20,28 +20,37 @@ users = {
 }
 
 
-def dice_game(bet: int, dict_id: int, bot: str) -> int:
-
+def check_bet(dict_id: int, bet: int):
     min_bet = 100
     max_bet = users[dict_id]["safe"]
-    result = 0
-    if max_bet >= bet >= min_bet:
-        print("Rolling dice ...")
-        users_dice = random.randint(1, 6)
-        print(f"You have rolled {users_dice}")
-        print(f"Now {bot} is rolling dice ...")
-        bots_dice = random.randint(1, 6)
-        print(f"{bot} has rolled {bots_dice}")
-        if users_dice > bots_dice:
-            result = 1
-        elif bots_dice > users_dice:
-            result = 2
-        elif bots_dice == users_dice:
-            result = 0
-
-        return result
+    if max_bet < min_bet:
+        result = 0
+    elif max_bet >= bet >= min_bet:
+        result = 1
     else:
-        print("You have entered a wrong bet!")
+        result = 0
+    return result
+
+
+def dice_game(bet: int, dict_id: int, bot: str) -> int:
+
+        if check_bet(dict_id, bet) == 1:
+            print("Rolling dice ...")
+            users_dice = random.randint(1, 6)
+            print(f"You have rolled {users_dice}")
+            print(f"Now {bot} is rolling dice ...")
+            bots_dice = random.randint(1, 6)
+            print(f"{bot} has rolled {bots_dice}")
+            if users_dice > bots_dice:
+                result = 1
+            elif bots_dice > users_dice:
+                result = 2
+            elif bots_dice == users_dice:
+                result = 0
+            return result
+        else:
+            print("You have entered a wrong bet!")
+
 
 def play_again(douwanna: str) -> int:
 
@@ -83,12 +92,7 @@ def sign_up(email: str, password: str) -> None:
 
 
 def sign_in(email=str, password=str):
-    """
-    sign in
-    :param email: str
-    :param password: str
-    :return: None
-    """
+
     flag = 0
     for i in range(1, len(users) + 1):
         if email == users[i].get("email") and password == users[i].get("password"):
