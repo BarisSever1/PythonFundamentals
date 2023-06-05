@@ -1,5 +1,4 @@
-import pprint
-
+from pprint import pprint
 baris = {
     "account_id": 2003,
     "username": "bsever",
@@ -112,26 +111,57 @@ def send_money(account: dict, iban: int, amount: int):
         print("You have entered a wrong account id!")
 
 
+def load_money(account: dict, amount: int):
+    account['account_balance'] += amount
+    print("You have successfully loaded money.")
+    show_balance(account)
+
+
+def menu(account: dict):
+    print(f"""
+                Welcome {account['username']}
+                =============================
+                Withdraw Money      ==> 1
+                Load Money          ==> 2
+                Account Information ==> 3
+                EFT                 ==> 4
+                Show Balance        ==> 5
+                -----------------------------
+                Log out ==> 6
+
+                """)
+
+
 def main():
-    username = input("Enter your username: ")
-    password = input("Enter your password: ")
-    account = sign_in(username, password)
-    if account is not None:
-        while True:
-            process = input("Enter a process: ")
-            if process == "show balance":
-                show_balance(account)
-            elif process == "withdraw":
-                amount = int(input("Enter a amount to withdraw: "))
-                withdraw_money(account, amount)
-            elif process == "send money":
-                iban = int(input("Enter an account id that you want to send money: "))
-                amount = int(input("Enter a amount to send: "))
-                send_money(account, iban, amount)
-            elif process == "exit":
-                break
-            else:
-                print("Enter a proper process.")
+    while True:
+        account = sign_in(input("Enter your username: "), input("Enter your password: "))
+        if account is not None:
+            menu(account)
+            while True:
+                process = input("Enter a process: ")
+                if process.strip() == "5":
+                    show_balance(account)
+                elif process.strip() == "1":
+                    amount = int(input("Enter a amount to withdraw: "))
+                    withdraw_money(account, amount)
+                elif process.strip() == "4":
+                    iban = int(input("Enter an account id that you want to send money: "))
+                    for i in users:
+                        if i['account_id'] == iban:
+                            send_money(account, iban, int(input("Enter an amount to send: ")))
+                            break
+                    else:
+                        print(f'Wrong account number!')
+                elif process.strip() == "2":
+                    load_money(account, int(input("Enter an amount to load: ")))
+                elif process.strip() == "3":
+                    pprint(account)
+                elif process.strip() == "6":
+                    print(f'See you again {account["first_name"]}')
+                    break
+                else:
+                    print("Enter a proper process.")
+                    menu(account)
 
 
 main()
